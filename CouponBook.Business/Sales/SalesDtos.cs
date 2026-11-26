@@ -1,0 +1,10 @@
+using CouponBook.Data.Entities;
+namespace CouponBook.Business.Sales;
+public record PaymentInfo(int Id,string Provider,string PaymentUrl);
+public record PurchaseStarted(int OrderId,string Status,decimal Subtotal,decimal Discount,decimal Amount,string Currency,PaymentInfo Payment);
+public record WebhookOutcome(string Result,int OrderId,string Status);
+public record OrderDto(int Id,int BookId,decimal Subtotal,decimal Discount,decimal Amount,string Currency,OrderStatus Status,bool IsGift,DateTime CreatedAt,DateTime? PaidAt);
+public record MyCouponDto(int Id,string Code,string VoucherTitle,string ProviderName,int UsesRemaining,int UsageLimit,CustomerVoucherStatus Status,DateTime ExpiresAt);
+public record MyBookDto(int Id,string Title,PurchasedBookStatus Status,DateTime PurchasedAt,DateTime ExpiresAt,string? GiftFrom,List<MyCouponDto> Coupons);
+public record PaymentRef(string ProviderTxnId,decimal Amount);
+public record PurchaseRequestData(string? PromoCode,bool IsGift,string? RecipientMobile,string? GiftMessage,string PaymentMethod="card");

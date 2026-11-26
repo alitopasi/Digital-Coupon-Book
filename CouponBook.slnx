@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CouponBook.Api/CouponBook.Api.csproj" />
+  <Project Path="CouponBook.Business/CouponBook.Business.csproj" />
+  <Project Path="CouponBook.Data/CouponBook.Data.csproj" />
+  <Project Path="CouponBook.Tests/CouponBook.Tests.csproj" />
+</Solution>

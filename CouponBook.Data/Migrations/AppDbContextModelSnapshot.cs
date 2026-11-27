@@ -172,8 +172,6 @@ namespace CouponBook.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProviderId");
-
                     b.ToTable("Branches");
                 });
 
@@ -188,6 +186,11 @@ namespace CouponBook.Data.Migrations
                     b.Property<string>("Icon")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("NameAr")
                         .IsRequired()
@@ -711,7 +714,7 @@ namespace CouponBook.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BranchId")
+                    b.Property<int>("BranchId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProviderId")
@@ -721,21 +724,15 @@ namespace CouponBook.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BranchId");
-
-                    b.HasIndex("ProviderId");
-
-                    b.HasIndex("UserId", "ProviderId", "BranchId")
+                    b.HasIndex("UserId")
                         .IsUnique();
+
+                    b.HasIndex("ProviderId", "BranchId");
 
                     b.ToTable("ProviderUsers");
                 });
@@ -1286,11 +1283,6 @@ namespace CouponBook.Data.Migrations
 
             modelBuilder.Entity("CouponBook.Data.Entities.ProviderUser", b =>
                 {
-                    b.HasOne("CouponBook.Data.Entities.Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("CouponBook.Data.Entities.Provider", "Provider")
                         .WithMany()
                         .HasForeignKey("ProviderId")
@@ -1300,6 +1292,13 @@ namespace CouponBook.Data.Migrations
                     b.HasOne("CouponBook.Data.Entities.User", "User")
                         .WithMany("ProviderAccounts")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CouponBook.Data.Entities.Branch", "Branch")
+                        .WithMany()
+                        .HasForeignKey("ProviderId", "BranchId")
+                        .HasPrincipalKey("ProviderId", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

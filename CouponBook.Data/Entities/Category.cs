@@ -6,4 +6,5 @@ public class Category
     public string NameAr { get; set; } = "";
     public string NameEn { get; set; } = "";
     public string Icon { get; set; } = "";
+    public bool IsActive { get; set; } = true;
 }
